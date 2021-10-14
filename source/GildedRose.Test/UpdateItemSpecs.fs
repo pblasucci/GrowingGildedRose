@@ -4,8 +4,6 @@ namespace GildedRose.Test
 open FsCheck
 open FsCheck.Xunit
 
-open type System.Environment
-
 (* system under test *)
 open GildedRose
 open GildedRose.Inventory

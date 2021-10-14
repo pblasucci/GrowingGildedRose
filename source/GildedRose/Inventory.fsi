@@ -60,5 +60,4 @@ type Item =
 
 /// Change the quality and "shelf life" for an Item
 /// (i.e. apply appropriate rules for the passage of a single "business day").
-[<CompiledName("UpdateItem")>]
 val updateItem : item : Item -> Item

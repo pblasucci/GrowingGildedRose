@@ -23,7 +23,7 @@ type ProgramTests() =
     Console.SetIn(reader)
 
     // act
-    Program.Main()
+    Array.empty |> Program.main |> ignore
 
     // assert
     let expected = "OMGHAI!

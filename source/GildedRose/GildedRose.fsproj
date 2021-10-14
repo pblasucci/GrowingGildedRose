@@ -1,28 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
     <WarningLevel>5</WarningLevel>
     <WarnOn>1182;3390;$(WarnOn)</WarnOn>
-    <RootNamespace>GildedRose</RootNamespace>
-    <Company>TheGildedRose</Company>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion>preview</LangVersion>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>bin/Debug/net5.0/</OutputPath>
-    <DocumentationFile>bin/Debug/net5.0/GildedRose.Inventory.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net5.0\GildedRose.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <WarningsAsErrors>true</WarningsAsErrors>
-    <OutputPath>bin/Release/net5.0/</OutputPath>
-    <DocumentationFile>binRelease/net5.0/GildedRose.Inventory.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net5.0\GildedRose.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Inventory.fsi" />
     <Compile Include="Inventory.fs" />
-    <Compile Include="Compat.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

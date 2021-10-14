@@ -16,8 +16,7 @@
     <DocumentationFile>bin\Release\net5.0\GildedRose.Test.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GildedRose.Inventory\GildedRose.Inventory.fsproj" />
-    <ProjectReference Include="..\GildedRose\GildedRose.csproj" />
+    <ProjectReference Include="..\GildedRose\GildedRose.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Support.fs" />
