@@ -16,6 +16,10 @@ type OnlyBackstagePass = OnlyBackstagePass of Item
 type OnlyAppreciating = OnlyAppreciating of Item
 
 /// Wrapper to simplify data generation (with FsCheck);
+/// Signals that only conjured items should be generated.
+type OnlyConjured = OnlyConjured of Item
+
+/// Wrapper to simplify data generation (with FsCheck);
 /// Signals that only depreciating items should be generated.
 type OnlyDepreciating = OnlyDepreciating of Item
 
@@ -70,9 +74,10 @@ type InventoryGenerators() =
         let! ctor = Gen.frequency [
           (1, Gen.constant (fun _ _ -> Legendary(name, MagicQuality())))
           // ⮝⮝⮝ legendary / ordinary ⮟⮟⮟
-          (2, Gen.constant (fun q s -> BackstagePass (name, q, s)))
-          (4, Gen.constant (fun q s -> Appreciating  (name, q, s)))
-          (4, Gen.constant (fun q s -> Depreciating  (name, q, s)))
+          (2, Gen.constant (fun q s -> BackstagePass  (name, q, s)))
+          (4, Gen.constant (fun q s -> Appreciating   (name, q, s)))
+          (2, Gen.constant (fun q s -> Conjured       (name, q, s)))
+          (4, Gen.constant (fun q s -> Depreciating   (name, q, s)))
         ]
         let! quality, sellIn = Arb.generate<_>
         return ctor quality sellIn
@@ -85,6 +90,7 @@ type InventoryGenerators() =
         // ⮝⮝⮝ legendary / ordinary ⮟⮟⮟
         | BackstagePass (name, quality, sellIn) & MakeOrdinary ctor
         | Appreciating  (name, quality, sellIn) & MakeOrdinary ctor
+        | Conjured      (name, quality, sellIn) & MakeOrdinary ctor
         | Depreciating  (name, quality, sellIn) & MakeOrdinary ctor ->
             Seq.zip3
               (Arb.shrink name) (Arb.shrink quality) (Arb.shrink sellIn)
@@ -133,6 +139,15 @@ type InventoryGenerators() =
       (function Appreciating (n, q, s) -> Some (n, q, s) | _ -> None)
       Appreciating
 
+  /// Generates a new conjured item with random quality and sellIn values.
+  static member OnlyConjured =
+    arbForOneCase
+      (function OnlyConjured item -> item)
+      OnlyConjured
+      (function Conjured _ -> true | _ -> false)
+      (function Conjured (n, q, s) -> Some (n, q, s) | _ -> None)
+      Conjured
+
   /// Generates a new depreciating item with random quality and sellIn values.
   static member OnlyDepreciating =
     arbForOneCase
@@ -151,6 +166,9 @@ type InventoryGenerators() =
 
         Arb.generate<OnlyAppreciating>
         |> Gen.map (function OnlyAppreciating it -> it)
+
+        Arb.generate<OnlyConjured>
+        |> Gen.map (function OnlyConjured it -> it)
 
         Arb.generate<OnlyDepreciating>
         |> Gen.map (function OnlyDepreciating it -> it)

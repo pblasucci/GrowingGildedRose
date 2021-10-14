@@ -22,8 +22,10 @@ type ItemExtensions =
         name    <- name'
         quality <- byte quality'
         sellIn  <- 0
+
     | BackstagePass (name', quality', sellIn')
     | Appreciating  (name', quality', sellIn')
+    | Conjured      (name', quality', sellIn')
     | Depreciating  (name', quality', sellIn') ->
         name    <- name'
         quality <- byte quality'

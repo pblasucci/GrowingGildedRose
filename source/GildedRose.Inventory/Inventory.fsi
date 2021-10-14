@@ -48,8 +48,11 @@ type Item =
   /// An item whose value decreases as its "shelf life" decreases.
   | Depreciating of name : string * quality : Quality * sellIn : int32<days>
 
+  /// Just like depreciating item -- but quality decreases twice as fast.
+  | Conjured of name : string * quality : Quality * sellIn : int32<days>
+
   /// An item whose value increases as its "shelf life" decreases.
-  | Appreciating  of name : string * quality : Quality * sellIn : int32<days>
+  | Appreciating of name : string * quality : Quality * sellIn : int32<days>
 
   /// An item whose value is subject to complex, "shelf life"-dependent rules.
   | BackstagePass of name : string * quality : Quality * sellIn : int32<days>

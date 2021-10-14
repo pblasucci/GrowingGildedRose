@@ -1,12 +1,7 @@
 namespace GildedRose.Test
 
 open FsCheck
-open GildedRose
 open GildedRose.Inventory
-
-type OldItem = GildedRose.Item
-type NewItem = GildedRose.Inventory.Item
-
 
 /// Utilities for converting into or from types related to:
 /// the application, the domain, or the test suite.
@@ -19,6 +14,7 @@ module Conversions =
     match item with
     | BackstagePass _ -> Some (fun (n, q, s) -> BackstagePass (n, q, s))
     | Appreciating  _ -> Some (fun (n, q, s) -> Appreciating  (n, q, s))
+    | Conjured      _ -> Some (fun (n, q, s) -> Conjured      (n, q, s))
     | Depreciating  _ -> Some (fun (n, q, s) -> Depreciating  (n, q, s))
     | Legendary     _ -> None
 
@@ -27,6 +23,7 @@ module Conversions =
     match item with
     | BackstagePass (name=name)
     | Appreciating  (name=name)
+    | Conjured      (name=name)
     | Depreciating  (name=name)
     | Legendary     (name=name) -> name
 
@@ -35,6 +32,7 @@ module Conversions =
     match item with
     | BackstagePass (quality=quality)
     | Appreciating  (quality=quality)
+    | Conjured      (quality=quality)
     | Depreciating  (quality=quality) -> int (byte quality)
     | Legendary     (quality=quality) -> int (byte quality)
 
@@ -44,19 +42,16 @@ module Conversions =
     match item with
     | BackstagePass (sellIn=sellIn)
     | Appreciating  (sellIn=sellIn)
+    | Conjured      (sellIn=sellIn)
     | Depreciating  (sellIn=sellIn) -> Some (int sellIn)
     | Legendary     _               -> None
-
-  /// Decomposes a GildedRose.Item instance
-  /// into a three-tuple of it constituent fields.
-  let inline (|OldItem|) (item : OldItem) =
-    OldItem(item.Name, item.Quality, item.SellIn)
 
   /// Extracts the name of the variant from a Inventory.Item
   let (|ItemKind|) (item : Item) =
     match item with
     | BackstagePass _ -> nameof BackstagePass
     | Appreciating  _ -> nameof Appreciating
+    | Conjured      _ -> nameof Conjured
     | Depreciating  _ -> nameof Depreciating
     | Legendary     _ -> nameof Legendary
 

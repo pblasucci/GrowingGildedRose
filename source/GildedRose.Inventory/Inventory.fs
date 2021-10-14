@@ -32,6 +32,7 @@ type MagicQuality =
 type Item =
   | Legendary     of name : string * quality : MagicQuality
   | Depreciating  of name : string * quality : Quality * sellIn : int32<days>
+  | Conjured      of name : string * quality : Quality * sellIn : int32<days>
   | Appreciating  of name : string * quality : Quality * sellIn : int32<days>
   | BackstagePass of name : string * quality : Quality * sellIn : int32<days>
 
@@ -50,6 +51,10 @@ let updateItem item =
   | Depreciating (name, quality, Aged sellIn') ->
       let quality' = quality - Quality.Of(rateOfChange sellIn')
       Depreciating(name, quality', sellIn')
+
+  | Conjured (name, quality, Aged sellIn') ->
+      let quality' = quality - Quality.Of(2uy * rateOfChange sellIn')
+      Conjured(name, quality', sellIn')
 
   | Appreciating (name, quality, Aged sellIn') ->
       let quality' = quality + Quality.Of(rateOfChange sellIn')

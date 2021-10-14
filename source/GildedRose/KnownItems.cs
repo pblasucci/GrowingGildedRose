@@ -9,6 +9,8 @@ namespace GildedRose
         // Depreciating items
         public const string Dex5Vest = "+5 Dexterity Vest";
         public const string Mongoose = "Elixir of the Mongoose";
+
+        // Conjured items
         public const string ManaCake = "Conjured Mana Cake";
 
         // Appreciating items

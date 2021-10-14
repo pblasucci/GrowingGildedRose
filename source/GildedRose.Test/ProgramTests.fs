@@ -32,7 +32,7 @@ Item { Name = Aged Brie, Quality = 1, SellIn = 1 }
 Item { Name = Elixir of the Mongoose, Quality = 6, SellIn = 4 }
 Item { Name = Sulfuras, Hand of Ragnaros, Quality = 80, SellIn = 0 }
 Item { Name = Backstage passes to a TAFKAL80ETC concert, Quality = 21, SellIn = 14 }
-Item { Name = Conjured Mana Cake, Quality = 5, SellIn = 2 }
+Item { Name = Conjured Mana Cake, Quality = 4, SellIn = 2 }
 Press <RETURN> to exit.
 "
     let actual = string buffer

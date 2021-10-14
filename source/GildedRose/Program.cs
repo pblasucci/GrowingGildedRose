@@ -9,7 +9,7 @@ using StockItem = GildedRose.Inventory.Item;
 
 namespace GildedRose
 {
-    public partial class Program
+    public class Program
     {
         // ReSharper disable once InconsistentNaming
         private IList<Item>? Items;
@@ -70,6 +70,9 @@ namespace GildedRose
 
                     KnownItems.AgedBrie and var name =>
                         StockItem.NewAppreciating(name, quality, item.SellIn),
+
+                    KnownItems.ManaCake and var name =>
+                        StockItem.NewConjured(name, quality, item.SellIn),
 
                     /* depreciating */ var name =>
                         StockItem.NewDepreciating(name, quality, item.SellIn)

@@ -21,13 +21,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Support.fs" />
-    <Compile Include="ProgramGenerators.fs" />
     <Compile Include="InventoryGenerators.fs" />
     <Compile Include="QualitySpecs.fs" />
-    <Compile Include="UpdateQualitySpecs.fs" />
     <Compile Include="UpdateItemSpecs.fs" />
     <Compile Include="ProgramTests.fs" />
-    <Compile Include="OracularTests.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

@@ -83,6 +83,38 @@ module UpdateItemSpecs =
         false |@ $"Unexpected variant: {case} is not {case'}"
 
   [<Property>]
+  let ``after +N days, conjured item has lesser quality``
+    (OnlyConjured item)
+    totalDays
+    =
+    let item' = item |> advanceBy totalDays
+
+    match (item, item') with
+    | Conjured (quality=quality ),
+      Conjured (quality=quality') ->
+        (quality' < quality || quality' = Quality.MinValue)
+        |@ $"{nameof quality}: {quality'} ≮ {quality} ∧ ¬{nameof Quality.MinValue}"
+
+    | ItemKind case, ItemKind case' ->
+        false |@ $"Unexpected variant: {case} is not {case'}"
+
+  [<Property>]
+  let ``after +1 days, conjured item has 0 <= abs(quality change) <= 4``
+    (OnlyConjured item)
+    =
+    let item' = item |> advanceBy (PositiveInt 1)
+
+    match (item, item') with
+    | Conjured (quality=quality ),
+      Conjured (quality=quality') ->
+        let delta = (quality - quality') |> byte |> int |> abs
+        (0 <= delta && delta <= 4)
+        |@ $"{nameof quality}: |{quality} - {quality'}| ∉ {{0, 1, 2, 3, 4}}"
+
+    | ItemKind case, ItemKind case' ->
+        false |@ $"Unexpected variant: {case} is not {case'}"
+
+  [<Property>]
   let ``after +N days, appreciating item has greater quality``
     (OnlyAppreciating item)
     totalDays
