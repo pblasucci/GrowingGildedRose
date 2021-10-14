@@ -2,6 +2,7 @@ framework: net50
 storage: none
 
 source https://api.nuget.org/v3/index.json
+nuget FSharp.Core
 
 group Test
     framework: net50
