@@ -1,9 +1,7 @@
 namespace GildedRose
 {
-    /// <summary>
-    /// Since an item's "kind" (and thus, its behavior) might sometimes be
+    /// Since an item's "kind" (and thus, its behavior) are currently
     /// determined by its name, it's useful to have some well-known names.
-    /// </summary>
     public static class KnownItems
     {
         // Depreciating items

@@ -1,6 +1,5 @@
 group Test
-    FsCheck.XUnit
-    FSharp.Core
-    Microsoft.NET.Test.Sdk
-    xunit
-    xunit.runner.visualstudio
+FsCheck.XUnit
+Microsoft.NET.Test.Sdk
+xunit
+xunit.runner.visualstudio

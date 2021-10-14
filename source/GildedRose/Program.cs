@@ -1,92 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using GildedRose.Interop;
-
-using static System.Console;
-using static GildedRose.Inventory;
-
-using StockItem = GildedRose.Inventory.Item;
 
 namespace GildedRose
 {
-    public class Program
-    {
-        // ReSharper disable once InconsistentNaming
-        private IList<Item>? Items;
+    using static Console;
+    using static Inventory;
+    using static KnownItems;
 
+    public static class Program
+    {
         public static void Main()
         {
             WriteLine("OMGHAI!");
 
-            var app = new Program
+            var items = new List<IInventoryItem>
             {
-                Items = new List<Item>
-                {
-                    new(){Name = KnownItems.Dex5Vest, SellIn = 10, Quality = 20},
-                    new(){Name = KnownItems.AgedBrie, SellIn =  2, Quality =  0},
-                    new(){Name = KnownItems.Mongoose, SellIn =  5, Quality =  7},
-                    new(){Name = KnownItems.Sulfuras, SellIn =  0, Quality = 80},
-                    new(){Name = KnownItems.StageTix, SellIn = 15, Quality = 20},
-                    new(){Name = KnownItems.ManaCake, SellIn =  3, Quality =  6}
-                }
+                new Depreciating  (Dex5Vest, new Quality(20), SellIn: 10),
+                new Appreciating  (AgedBrie, new Quality( 0), SellIn:  2),
+                new Depreciating  (Mongoose, new Quality( 7), SellIn:  5),
+                new Legendary     (Sulfuras),
+                new BackstagePass (StageTix, new Quality(20), SellIn: 15),
+                new Conjured      (ManaCake, new Quality( 6), SellIn:  3)
             };
 
-            UpdateItems(app.Items);
-
-            foreach (var item in app.Items)
+            foreach (var item in items)
             {
+                var (quality, sellIn) =
+                    // Update program state
+                    UpdateItem(item) switch
+                    {
+                        IOrdinary
+                        {
+                            Quality: var value,
+                            SellIn: var days
+                        } => ((int)value, days),
+
+                        // if it's not ordinary, it must be legendary
+                        _ => ((int)new MagicQuality(), 0)
+
+                    };
+
+                // Display updated inventory
                 WriteLine($"Item {{ Name = {item.Name}" +
-                          $", Quality = {item.Quality}" +
-                          $", SellIn = {item.SellIn} }}");
+                          $", Quality = {quality}" +
+                          $", SellIn = {sellIn} }}");
             }
 
             WriteLine("Press <RETURN> to exit.");
             ReadLine();
         }
-
-        public static void UpdateItems(IList<Item>? items)
-        {
-            if (items is null) return;
-
-            foreach (var item in items)
-            {
-                var evolved = Evolve(item);
-                var (_, quality, sellIn) = UpdateItem(evolved);
-                item.Quality = quality;
-                item.SellIn = sellIn;
-            }
-
-            static StockItem Evolve(Item item)
-            {
-                var quality = Quality.Of((byte) item.Quality);
-
-                return item.Name switch
-                {
-                    KnownItems.Sulfuras and var name =>
-                        StockItem.NewLegendary(name, default),
-
-                    KnownItems.StageTix and var name =>
-                        StockItem.NewBackstagePass(name, quality, item.SellIn),
-
-                    KnownItems.AgedBrie and var name =>
-                        StockItem.NewAppreciating(name, quality, item.SellIn),
-
-                    KnownItems.ManaCake and var name =>
-                        StockItem.NewConjured(name, quality, item.SellIn),
-
-                    /* depreciating */ var name =>
-                        StockItem.NewDepreciating(name, quality, item.SellIn)
-                };
-            }
-        }
-    }
-
-    public class Item
-    {
-        public string Name { get; set; } = "";
-
-        public int SellIn { get; set; }
-
-        public int Quality { get; set; }
     }
 }
