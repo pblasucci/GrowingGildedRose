@@ -1,0 +1,9 @@
+.idea/
+
+.paket/
+paket-files/paket.restore.cached
+
+**/[bB]in/
+**/[oO]bj/
+
+**/*.DotSettings.*
