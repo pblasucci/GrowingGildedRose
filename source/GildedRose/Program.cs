@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using GildedRose.Interop;
+
+using static System.Console;
+using static GildedRose.Inventory;
+
+using StockItem = GildedRose.Inventory.Item;
 
 namespace GildedRose
 {
-    using static System.Console;
-
-    public class Program
+    public partial class Program
     {
         // ReSharper disable once InconsistentNaming
-        IList<Item>? Items;
+        private IList<Item>? Items;
 
         public static void Main()
         {
@@ -17,21 +22,16 @@ namespace GildedRose
             {
                 Items = new List<Item>
                 {
-                    new (){ Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
-                    new (){ Name = "Aged Brie", SellIn = 2, Quality = 0 },
-                    new (){ Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
-                    new (){ Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
-                    new ()
-                        {
-                            Name = "Backstage passes to a TAFKAL80ETC concert",
-                            SellIn = 15,
-                            Quality = 20
-                        },
-                    new (){ Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
+                    new(){Name = KnownItems.Dex5Vest, SellIn = 10, Quality = 20},
+                    new(){Name = KnownItems.AgedBrie, SellIn =  2, Quality =  0},
+                    new(){Name = KnownItems.Mongoose, SellIn =  5, Quality =  7},
+                    new(){Name = KnownItems.Sulfuras, SellIn =  0, Quality = 80},
+                    new(){Name = KnownItems.StageTix, SellIn = 15, Quality = 20},
+                    new(){Name = KnownItems.ManaCake, SellIn =  3, Quality =  6}
                 }
-           };
+            };
 
-            app.UpdateQuality(app.Items);
+            UpdateItems(app.Items);
 
             foreach (var item in app.Items)
             {
@@ -44,84 +44,38 @@ namespace GildedRose
             ReadLine();
         }
 
-        public void UpdateQuality(IList<Item>? items)
+        public static void UpdateItems(IList<Item>? items)
         {
             if (items is null) return;
 
-            foreach (var t in items)
+            foreach (var item in items)
             {
-                if (t.Name != "Aged Brie" && t.Name != "Backstage passes to a TAFKAL80ETC concert")
-                {
-                    if (t.Quality > 0)
-                    {
-                        if (t.Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            t.Quality -= 1;
-                        }
-                    }
-                }
-                else
-                {
-                    if (t.Quality < 50)
-                    {
-                        t.Quality += 1;
+                var evolved = Evolve(item);
+                var (_, quality, sellIn) = UpdateItem(evolved);
+                item.Quality = quality;
+                item.SellIn = sellIn;
+            }
 
-                        if (t.Name == "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (t.SellIn < 11)
-                            {
-                                if (t.Quality < 50)
-                                {
-                                    t.Quality += 1;
-                                }
-                            }
+            static StockItem Evolve(Item item)
+            {
+                var quality = Quality.Of((byte) item.Quality);
 
-                            if (t.SellIn < 6)
-                            {
-                                if (t.Quality < 50)
-                                {
-                                    t.Quality += 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (t.Name != "Sulfuras, Hand of Ragnaros")
+                return item.Name switch
                 {
-                    t.SellIn -= 1;
-                }
+                    KnownItems.Sulfuras and var name =>
+                        StockItem.NewLegendary(name, default),
 
-                if (t.SellIn < 0)
-                {
-                    if (t.Name != "Aged Brie")
-                    {
-                        if (t.Name != "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (t.Quality > 0)
-                            {
-                                if (t.Name != "Sulfuras, Hand of Ragnaros")
-                                {
-                                    t.Quality -= 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            t.Quality -= t.Quality;
-                        }
-                    }
-                    else
-                    {
-                        if (t.Quality < 50)
-                        {
-                            t.Quality += 1;
-                        }
-                    }
-                }
+                    KnownItems.StageTix and var name =>
+                        StockItem.NewBackstagePass(name, quality, item.SellIn),
+
+                    KnownItems.AgedBrie and var name =>
+                        StockItem.NewAppreciating(name, quality, item.SellIn),
+
+                    /* depreciating */ var name =>
+                        StockItem.NewDepreciating(name, quality, item.SellIn)
+                };
             }
         }
-
     }
 
     public class Item

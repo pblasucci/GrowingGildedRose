@@ -7,6 +7,7 @@ open FsCheck.Xunit
 open type System.Environment
 
 (* system under test *)
+open GildedRose
 open GildedRose.Inventory
 
 /// Evaluates whether or not Inventory.updateItem()

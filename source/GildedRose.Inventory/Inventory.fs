@@ -36,6 +36,7 @@ type Item =
   | BackstagePass of name : string * quality : Quality * sellIn : int32<days>
 
 
+[<CompiledName("UpdateItem")>]
 let updateItem item =
   // advance the "shelf life" clock by a single day
   let (|Aged|) sellIn = Aged(sellIn - 1<days>)

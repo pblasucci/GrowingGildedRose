@@ -28,9 +28,8 @@ module UpdateQualitySpecs =
     let items =
       [| Item(Name=item.Name, Quality=item.Quality, SellIn=item.SellIn) |]
     //NOTE ⮝⮝⮝ fully copy to preserve original -- because mutable
-    let program = Program()
     for _ in 1 .. totalDays do
-      program.UpdateQuality(items)
+      Program.UpdateQuality(items)
 
     match Array.tryHead items with
     | None -> false |@ "Items collection should NOT be empty!"
@@ -50,9 +49,8 @@ module UpdateQualitySpecs =
         let items =
           [| Item(Name=item.Name, Quality=item.Quality, SellIn=item.SellIn) |]
         //NOTE ⮝⮝⮝ fully copy to preserve original -- because mutable
-        let program = Program()
         for _ in 1 .. totalDays do
-          program.UpdateQuality(items)
+          Program.UpdateQuality(items)
 
         match Array.tryHead items with
         | None -> false |@ "Items collection should NOT be empty!"
@@ -71,9 +69,8 @@ module UpdateQualitySpecs =
         let items =
           [| Item(Name=item.Name, Quality=item.Quality, SellIn=item.SellIn) |]
         //NOTE ⮝⮝⮝ fully copy to preserve original -- because mutable
-        let program = Program()
         for _ in 1 .. totalDays do
-          program.UpdateQuality(items)
+          Program.UpdateQuality(items)
 
         match Array.tryHead items with
         | None -> false |@ "Items collection should NOT be empty!"
@@ -90,9 +87,8 @@ module UpdateQualitySpecs =
     let items =
       [| Item(Name=item.Name, Quality=item.Quality, SellIn=item.SellIn) |]
     //NOTE ⮝⮝⮝ fully copy to preserve original -- because mutable
-    let program = Program()
     for _ in 1 .. totalDays do
-      program.UpdateQuality(items)
+      Program.UpdateQuality(items)
 
     match Array.tryHead items with
     | None -> false |@ "Items collection should NOT be empty!"
@@ -107,8 +103,7 @@ module UpdateQualitySpecs =
     let items =
       [| Item(Name=item.Name, Quality=item.Quality, SellIn=item.SellIn) |]
     //NOTE ⮝⮝⮝ fully copy to preserve original -- because mutable
-    let program = Program()
-    program.UpdateQuality(items)
+    Program.UpdateQuality(items)
 
     match Array.tryHead items with
     | None -> false |@ "Items collection should NOT be empty!"
@@ -126,9 +121,8 @@ module UpdateQualitySpecs =
     let items =
       [| Item(Name=item.Name, Quality=item.Quality, SellIn=item.SellIn) |]
     //NOTE ⮝⮝⮝ fully copy to preserve original -- because mutable
-    let program = Program()
     for _ in 1 .. totalDays do
-      program.UpdateQuality(items)
+      Program.UpdateQuality(items)
 
     match Array.tryHead items with
     | None -> false |@ "Items collection should NOT be empty!"
@@ -143,8 +137,7 @@ module UpdateQualitySpecs =
     let items =
       [| Item(Name=item.Name, Quality=item.Quality, SellIn=item.SellIn) |]
     //NOTE ⮝⮝⮝ fully copy to preserve original -- because mutable
-    let program = Program()
-    program.UpdateQuality(items)
+    Program.UpdateQuality(items)
 
     match Array.tryHead items with
     | None -> false |@ "Items collection should NOT be empty!"
@@ -165,8 +158,7 @@ module UpdateQualitySpecs =
         let items =
           [| Item(Name=item.Name, Quality=item.Quality, SellIn=item.SellIn) |]
         //NOTE ⮝⮝⮝ fully copy to preserve original -- because mutable
-        let program = Program()
-        program.UpdateQuality(items)
+        Program.UpdateQuality(items)
 
         match Array.tryHead items with
         | None -> false |@ "Items collection should NOT be empty!"
@@ -180,8 +172,7 @@ module UpdateQualitySpecs =
     let items =
       [| Item(Name=item.Name, Quality=item.Quality, SellIn=item.SellIn) |]
     //NOTE ⮝⮝⮝ fully copy to preserve original -- because mutable
-    let program = Program()
-    program.UpdateQuality(items)
+    Program.UpdateQuality(items)
 
     match Array.tryHead items with
     | None -> false |@ "Items collection should NOT be empty!"

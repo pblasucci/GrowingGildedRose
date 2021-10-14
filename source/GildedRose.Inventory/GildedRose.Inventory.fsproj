@@ -22,6 +22,7 @@
   <ItemGroup>
     <Compile Include="Inventory.fsi" />
     <Compile Include="Inventory.fs" />
+    <Compile Include="Compat.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

@@ -27,6 +27,7 @@
     <Compile Include="UpdateQualitySpecs.fs" />
     <Compile Include="UpdateItemSpecs.fs" />
     <Compile Include="ProgramTests.fs" />
+    <Compile Include="OracularTests.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

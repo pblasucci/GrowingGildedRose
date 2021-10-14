@@ -1,25 +1,11 @@
 namespace GildedRose.Test
 
 open FsCheck
+open GildedRose
 open GildedRose.Inventory
 
-// Since an item's "kind" (and thus, its behavior) might sometimes be
-// determined by its name, it's useful to have some well-known names.
-[<RequireQualifiedAccess>]
-module KnownItems =
-  // Depreciating items
-  let [<Literal>] Dex5Vest = "+5 Dexterity Vest"
-  let [<Literal>] Mongoose = "Elixir of the Mongoose"
-  let [<Literal>] ManaCake = "Conjured Mana Cake"
-
-  // Appreciating items
-  let [<Literal>] AgedBrie = "Aged Brie"
-
-  // Backstage Passes
-  let [<Literal>] StageTix = "Backstage passes to a TAFKAL80ETC concert"
-
-  // Legendary items
-  let [<Literal>] Sulfuras = "Sulfuras, Hand of Ragnaros"
+type OldItem = GildedRose.Item
+type NewItem = GildedRose.Inventory.Item
 
 
 /// Utilities for converting into or from types related to:
@@ -49,8 +35,8 @@ module Conversions =
     match item with
     | BackstagePass (quality=quality)
     | Appreciating  (quality=quality)
-    | Depreciating  (quality=quality) -> byte quality
-    | Legendary     (quality=quality) -> byte quality
+    | Depreciating  (quality=quality) -> int (byte quality)
+    | Legendary     (quality=quality) -> int (byte quality)
 
   /// Extracts the expiration date from an Inventory.Item
   /// (n.b. will not return a value for legendary items).
@@ -60,6 +46,11 @@ module Conversions =
     | Appreciating  (sellIn=sellIn)
     | Depreciating  (sellIn=sellIn) -> Some (int sellIn)
     | Legendary     _               -> None
+
+  /// Decomposes a GildedRose.Item instance
+  /// into a three-tuple of it constituent fields.
+  let inline (|OldItem|) (item : OldItem) =
+    OldItem(item.Name, item.Quality, item.SellIn)
 
   /// Extracts the name of the variant from a Inventory.Item
   let (|ItemKind|) (item : Item) =
