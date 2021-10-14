@@ -2,3 +2,15 @@ framework: net50
 storage: none
 
 source https://api.nuget.org/v3/index.json
+
+group Test
+    framework: net50
+    storage: none
+
+    source https://api.nuget.org/v3/index.json
+
+    nuget FsCheck.XUnit
+    nuget FSharp.Core
+    nuget Microsoft.NET.Test.Sdk
+    nuget xunit
+    nuget xunit.runner.visualstudio

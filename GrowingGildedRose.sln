@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GildedRose", "source\GildedRose\GildedRose.csproj", "{18D5A21E-C4A8-42DB-A1EC-C0421F9AE71C}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GildedRose.Test", "source\GildedRose.Test\GildedRose.Test.fsproj", "{928311A5-16A7-4416-9850-3E939DECB174}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{18D5A21E-C4A8-42DB-A1EC-C0421F9AE71C}.Release|x64.Build.0 = Release|Any CPU
 		{18D5A21E-C4A8-42DB-A1EC-C0421F9AE71C}.Release|x86.ActiveCfg = Release|Any CPU
 		{18D5A21E-C4A8-42DB-A1EC-C0421F9AE71C}.Release|x86.Build.0 = Release|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Debug|x64.Build.0 = Debug|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Debug|x86.Build.0 = Debug|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Release|x64.ActiveCfg = Release|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Release|x64.Build.0 = Release|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Release|x86.ActiveCfg = Release|Any CPU
+		{928311A5-16A7-4416-9850-3E939DECB174}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

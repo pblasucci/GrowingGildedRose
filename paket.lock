@@ -1,2 +1,48 @@
 STORAGE: NONE
 RESTRICTION: == net50
+
+GROUP Test
+STORAGE: NONE
+RESTRICTION: == net50
+NUGET
+  remote: https://api.nuget.org/v3/index.json
+    FsCheck (2.16.3)
+      FSharp.Core (>= 4.2.3)
+    FsCheck.XUnit (2.16.3)
+      FsCheck (2.16.3)
+      xunit.extensibility.execution (>= 2.2 < 3.0)
+    FSharp.Core (6.0)
+    Microsoft.CodeCoverage (16.11)
+    Microsoft.NET.Test.Sdk (16.11)
+      Microsoft.CodeCoverage (>= 16.11)
+      Microsoft.TestPlatform.TestHost (>= 16.11)
+    Microsoft.NETCore.Platforms (5.0.4)
+    Microsoft.TestPlatform.ObjectModel (16.11)
+      NuGet.Frameworks (>= 5.0)
+      System.Reflection.Metadata (>= 1.6)
+    Microsoft.TestPlatform.TestHost (16.11)
+      Microsoft.TestPlatform.ObjectModel (>= 16.11)
+      Newtonsoft.Json (>= 9.0.1)
+    NETStandard.Library (2.0.3)
+      Microsoft.NETCore.Platforms (>= 1.1)
+    Newtonsoft.Json (13.0.1)
+    NuGet.Frameworks (5.11)
+    System.Reflection.Metadata (5.0)
+    xunit (2.4.1)
+      xunit.analyzers (>= 0.10)
+      xunit.assert (2.4.1)
+      xunit.core (2.4.1)
+    xunit.abstractions (2.0.3)
+    xunit.analyzers (0.10)
+    xunit.assert (2.4.1)
+      NETStandard.Library (>= 1.6.1)
+    xunit.core (2.4.1)
+      xunit.extensibility.core (2.4.1)
+      xunit.extensibility.execution (2.4.1)
+    xunit.extensibility.core (2.4.1)
+      NETStandard.Library (>= 1.6.1)
+      xunit.abstractions (>= 2.0.3)
+    xunit.extensibility.execution (2.4.1)
+      NETStandard.Library (>= 1.6.1)
+      xunit.extensibility.core (2.4.1)
+    xunit.runner.visualstudio (2.4.3)
