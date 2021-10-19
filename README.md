@@ -8,7 +8,7 @@ This is (yet another) take on the [Gilded Rose Kata][8], originally conceived by
 The goal of the original kata was to work through the challenges of extending -- and more importantly understanding -- a
 piece of legacy software. In particular, software lacking tests and written in a peculiar manner and with very
 definitive constraints (both functional and political). In that same spirit, this attempt solves the kata while
-_incrementally_ introducing several new concepts. This repos is meant to be a companion to a [series of blog post][0] 
+_incrementally_ introducing several different concepts. This repo is meant to be a companion to a [series of blog post][0] 
 about this topic. Please refer to them for in-depth explanations.
 
 ---
@@ -29,12 +29,12 @@ To help make things a bit more manageable, each branch in this repo represents a
  Branch       | Blog Post                  | Summary
 --------------|----------------------------|----------------------------------------------------------------------------
  `0_original` | [Growing a Gilded Rose][0] | Original (in C#) console application, i.e. the start of the kata.
- `1_testable` | [Gilded Rose: Step 1][1]   | Introduces (in F#): approval tests, unit tests, property-based tests.
+ `1_testable` | [Gilded Rose: Step 1][1]   | Introduces (in F#): approval tests and property-based tests.
  `2_model-fs` | [Gilded Rose: Step 2][2]   | Introduces (in F#): functional requirements expressed as a domain model.
  `3_coalesce` | [Gilded Rose: Step 3][3]   | Demonstrates adding (new) F# code to a (legacy) C# codebase.
  `4_extended` | [Gilded Rose: Step 4][4]   | Extends previous work with new functional requirements.
  `5_fs-alone` | [Gilded Rose: Bonus 1][5]  | BONUS: replaces C# console application with F# equivalent.
- `6_model-cs` | [Gilded Rose: Bonus 2][6]  | BONUS: replaces F# domain model with C# equivalent (retains F# test suite). 
+ `6_model-cs` | [Gilded Rose: Bonus 2][6]  | BONUS: replaces F# domain model and test suite with C# equivalents. 
 
 The first time you work with the repository (or if after performing `git clean -xfd`), you'll likely need to run: 
 
@@ -43,8 +43,8 @@ The first time you work with the repository (or if after performing `git clean -
 Subsequent to that, you can use the editor or IDE of your choice. But the following CLI commands might be useful (note,
 they all assume you are in the root folder of the repository... where the `GrowingGildedRose.sln` file lives):
 
-+ Build all the projects: `> dotnet build`.
-+ Run the whole test suite: `> dotnet test`.
++ Build all the projects: `> dotnet build`
++ Run the whole test suite: `> dotnet test`
 + Run just the main executable: `> dotnet run -p source/GildedRose`
 
 ---
