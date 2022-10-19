@@ -1,10 +1,10 @@
-framework: net50
+framework: net60
 storage: none
 
 source https://api.nuget.org/v3/index.json
 
 group Test
-    framework: net50
+    framework: net60
     storage: none
 
     source https://api.nuget.org/v3/index.json
