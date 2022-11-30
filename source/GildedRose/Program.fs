@@ -1,7 +1,5 @@
 namespace GildedRose
 
-open GildedRose.Inventory
-
 /// Since an item's "kind" (and thus, its behavior) might sometimes be
 /// determined by its name, it's useful to have some well-known names.
 [<RequireQualifiedAccess>]
@@ -24,6 +22,9 @@ module KnownItems =
 
 
 module Program =
+  open System
+  open GildedRose.Inventory
+
   [<EntryPoint>]
   let main _ =
     printfn "OMGHAI!"
@@ -43,7 +44,7 @@ module Program =
         match updateItem item with
         | Legendary (name, quality) ->
             // normalize for compatibility with existing approval test
-            (name, byte quality, 0)
+            (name, byte quality, Nullable())
 
         // ⮝⮝⮝ legendary / ordinary ⮟⮟⮟
 
@@ -52,10 +53,10 @@ module Program =
         | Depreciating  (name, quality, sellIn)
         | Conjured      (name, quality, sellIn) ->
             // normalize for compatibility with existing approval test
-            (name, byte quality, int sellIn)
+            (name, byte quality, Nullable(int sellIn))
 
       printfn $"Item {{ Name = {name}, Quality = {quality}, SellIn = {sellIn} }}"
 
     printfn "Press <RETURN> to exit."
-    System.Console.ReadLine() |> ignore
+    Console.ReadLine() |> ignore
     0 // OK!
