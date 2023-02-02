@@ -1,72 +1,127 @@
 using System;
 
-namespace GildedRose
+namespace GildedRose;
+
+/// Tracks the name of any inventory.
+public interface IStock
 {
-    public static class Inventory
+    string Name { get; }
+
+    IStock Update(Advance age, RateOfChange ramp);
+}
+
+/// An item with a constant value and no "shelf life".
+public sealed record Legendary
+    (string Name, MagicQuality Quality = default) : IStock
+{
+    /// <inheritdoc />
+    public IStock Update(Advance _, RateOfChange __) => this;
+}
+
+/// Tracks any inventory which has both a value and a "shelf life".
+public interface IOrdinary : IStock
+{
+    /// The value of a piece of inventory.
+    Quality Quality { get; }
+
+    /// The "shelf life" of a piece of inventory;
+    /// when negative may impact the items quality.
+    int SellIn { get; }
+}
+
+/// An item whose value decreases as its "shelf life" decreases.
+public sealed record Depreciating
+    (string Name, Quality Quality, int SellIn) : IOrdinary
+{
+    /// <inheritdoc />
+    public IStock Update(Advance age, RateOfChange ramp)
     {
-        /// Change the quality and "shelf life" for an Item  (i.e. apply
-        /// appropriate rules for the passage of a single "business day").
-        public static IInventoryItem UpdateItem(IInventoryItem stock) =>
-            stock switch
-            {
-                null => throw new ArgumentNullException(nameof(stock)),
+        var aged = age(SellIn);
+        return this with { Quality = Quality - ramp(aged), SellIn = aged };
+    }
+}
 
-                IOrdinary ordinary => UpdateOrdinary(ordinary),
+/// An item whose value increases as its "shelf life" decreases.
+public sealed record Appreciating
+    (string Name, Quality Quality, int SellIn) : IOrdinary
+{
+    /// <inheritdoc />
+    public IStock Update(Advance age, RateOfChange ramp)
+    {
+        var aged = age(SellIn);
+        return this with { Quality = Quality + ramp(aged), SellIn = aged };
+    }
+}
 
-                // if it's not ordinary, it must be legendary
-                _ => stock // Legendary things never change!
-            };
-
-        private static IOrdinary UpdateOrdinary(IOrdinary ordinary)
+/// An item whose value is subject to complex, "shelf life"-dependent rules.
+public sealed record BackstagePass
+    (string Name, Quality Quality, int SellIn) : IOrdinary
+{
+    /// <inheritdoc />
+    public IStock Update(Advance age, RateOfChange ramp)
+    {
+        var (quality, sellIn) = age(SellIn) switch
         {
-            var agedTo = ordinary.SellIn - 1; // days
-            var rateOfChange = agedTo < 0 ? 2 : 1;
+            var aged and < 0 => (Quality.MinValue, aged),
 
-            return ordinary switch
-            {
-                Depreciating { Quality: var quality } item => item with
-                {
-                    SellIn = agedTo,
-                    Quality = quality - new Quality(rateOfChange)
-                },
-                Appreciating { Quality: var quality } item => item with
-                {
-                    SellIn = agedTo,
-                    Quality = quality + new Quality(rateOfChange)
-                },
-                Conjured { Quality: var quality } item => item with
-                {
-                    SellIn = agedTo,
-                    Quality = quality - new Quality(2 * rateOfChange)
-                },
-                BackstagePass item when agedTo < 0 => item with
-                {
-                    SellIn = agedTo,
-                    Quality = Quality.MinValue
-                },
-                //  NOTE
-                //  ----
-                //  Pass quality has a "hard cliff", based on "shelf life".
-                //  However, until then, its value is calculated against
-                //  the _current_ expiry (i.e. before advancing the clock).
-                BackstagePass { Quality: var quality, SellIn: <= 5 } item => item with
-                {
-                    SellIn = agedTo,
-                    Quality = quality + new Quality(3)
-                },
-                BackstagePass { Quality: var quality, SellIn: <= 10 } item => item with
-                {
-                    SellIn = agedTo,
-                    Quality = quality + new Quality(2)
-                },
-                BackstagePass { Quality: var quality } item => item with
-                {
-                    SellIn = agedTo,
-                    Quality = quality + new Quality(1)
-                },
+            //  NOTE
+            //  ----
+            //  Pass quality has a "hard cliff", based on "shelf life".
+            //  However, until then, its value is calculated against
+            //  the _current_ expiry (i.e. before advancing the clock).
 
-                _ => throw new InvalidProgramException($"Inventory unknown : {ordinary}")
-            };
+            var aged when SellIn <= 5 => (Quality + 3, aged),
+            var aged when SellIn <= 10 => (Quality + 2, aged),
+            var aged => (Quality + 1, aged)
+        };
+        return this with { Quality = quality, SellIn = sellIn };
+    }
+}
+
+/// Similar to a "Depreciating" item, but deteriorates twice as quickly.
+public sealed record Conjured
+    (string Name, Quality Quality, int SellIn) : IOrdinary
+{
+    /// <inheritdoc />
+    public IStock Update(Advance age, RateOfChange ramp)
+    {
+        var aged = age(SellIn);
+        return this with { Quality = Quality - 2 * ramp(aged), SellIn = aged };
+    }
+}
+
+public delegate int Advance(int sellIn);
+
+public delegate int RateOfChange(int sellIn);
+
+public static class Inventory
+{
+    public static void Deconstruct(
+        this IStock stock,
+        out string name,
+        out int quality,
+        out int? sellIn
+    )
+    {
+        switch (stock)
+        {
+            case Legendary legendary:
+                name = stock.Name;
+                quality = (int)legendary.Quality;
+                sellIn = default;
+                break;
+
+            case IOrdinary ordinary:
+                name = stock.Name;
+                quality = (int)ordinary.Quality;
+                sellIn = ordinary.SellIn;
+                break;
+
+            default:
+                name = string.Empty;
+                quality = default;
+                sellIn = default;
+                break;
         }
     }
 }
